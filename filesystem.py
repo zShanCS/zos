@@ -91,6 +91,8 @@ class FileSystem:
 
     def print(self):
         self.fs.show()
+        return self.fs.to_json()
+
 
     def show_mm(self):
         '''
@@ -98,13 +100,16 @@ class FileSystem:
         If file occupies > 0 pages then print
         filepath, pages, size
         '''
+        output = []
         for node in self.fs.all_nodes_itr():
             file = node.data
             if isinstance(file, File):
                 size = file.get_size()
                 pages = file.get_pages()
                 if len(pages) > 0:
+                    output.append([file.get_path(), pages, size])
                     print(file.get_path(), pages, size)
+        return output
 
     def save(self, name):
         with open(name, "wb") as outp:
@@ -116,13 +121,16 @@ class FileSystem:
         Ignore operation if directory of parent does not exist or file already exists
         Create File object and then add to tree
         '''
+        mess = ''
         filename, dirname, full_path = self._get_components(fname)
         if not self._exists(dirname):
+            mess = "No such directory exists!"
             print("No such directory exists!")
-            return 0
+            return mess
         if self._exists(full_path):
+            mess = "Duplicate file. Operation ignored."
             print("Duplicate file. Operation ignored.")
-            return 1
+            return mess
         file = File(filename, dirname)
         self.fs.create_node(filename, full_path, parent=dirname, data=file)
         self._allocate_pages(file)
