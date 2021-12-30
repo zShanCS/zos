@@ -1,0 +1,16 @@
+create file2.txt
+open file2.txt w
+append file2.txt hello
+open file1.txt r
+show_memory_map
+read file1.txt
+append file2.txt world
+close file2.txt
+close file1.txt
+open file2.txt r
+read file2.txt
+close file2.txt
+open file1.txt r
+read file1.txt
+close file1.txt
+show_memory_map

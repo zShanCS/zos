@@ -1,0 +1,20 @@
+create file1.txt
+show_memory_map
+open file1.txt w
+show_memory_map
+append file1.txt abcd
+show_memory_map
+create file2.txt
+open file2.txt w
+show_memory_map
+append file2.txt 123
+append file1.txt xyz
+close file1.txt
+close file2.txt
+show_memory_map
+open file1.txt r
+open file2.txt r
+read file1.txt
+read file2.txt
+close file1.txt
+close file2.txt
